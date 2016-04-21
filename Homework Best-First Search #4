@@ -1,0 +1,68 @@
+#! /usr/bin/python
+
+from Queue import PriorityQueue
+
+def positions_in(substring, string):
+	"""
+	Preconditions: substring and string are strings.
+	Postconditions: The return value is the list of indices where the substring appears in the string.
+	
+	>>> positions_in('a', 'alphabet')
+	[0, 4]
+	>>> positions_in('b', 'alphabet')
+	[5]
+	>>> positions_in('c', 'alphabet')
+	[]
+	>>> positions_in('ab', 'alphabet')
+	[4]
+	"""
+	result = []
+	index = -1
+	while True:
+		index = string.find(substring, index + 1)
+		if index == -1:
+			return result
+		result.append(index)
+
+def get_neighbors_via_first_move(string):
+	return {string[:position] + 'c' + string[position + len('a'):] for position in positions_in('a', string)}
+
+def get_neighbors_via_second_move(string):
+	return {string[:position] + 'b' + string[position + len('ab'):] for position in positions_in('ab', string)}
+
+def get_neighbors_via_third_move(string):
+	return {string[:position] + 'cc' + string[position + len('ba'):] for position in positions_in('ba', string)}
+
+def get_neighbors_via_fourth_move(string):
+	return {string[:position] + 'b' + string[position + len('c'):] for position in positions_in('c', string)}
+
+def get_all_neighbors(string):
+	return get_neighbors_via_first_move(string) | get_neighbors_via_second_move(string) | get_neighbors_via_third_move(string) | get_neighbors_via_fourth_move(string)
+
+source = 'abab'
+destination = 'bcb'
+
+
+def heuristic(string):
+	"""
+	preconditions: string is an string
+	postconditions: abs return the absolute value of the length of the string minus the length of the destination.
+	
+	"""
+	return abs(len(string) - len(destination))
+
+solution = None
+worklist = PriorityQueue()
+worklist.put((0 + heuristic(source), 0, [source]))
+closed = set()
+while not worklist.empty():
+	estimate, distance, path = worklist.get(False)
+	end = path[-1]
+	if end not in closed:
+		closed |= {end}
+		for extension in get_all_neighbors(end):
+			worklist.put((distance + heuristic(extension), distance, path + [extension]))
+	if end == destination:
+		solution = path
+		break
+print('Found a way to rewrite {source} to get {destination}:\n  {solution}'.format(source = repr(source), destination = repr(destination), solution = solution))
