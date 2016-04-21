@@ -3,6 +3,9 @@
 from __future__ import division
 from __future__ import print_function
 import math
+#changing the code using terminal
+#Homework on Staging and Committing (C) 
+
 
 def days_cost(day):
 	return int(4 + 0.3 * day)
