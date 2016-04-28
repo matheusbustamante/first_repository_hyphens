@@ -47,6 +47,19 @@ def precipitation_multiplier(chance_of_precipitation):
 	return 1 - chance_of_precipitation / 2
 
 def days_street_work(day):
+	"""
+	Invocation: days_street_work(day)
+	Precondition: day is a number.
+	Postconditions: Return 1 if day is equal to 2, and return 0.5 if day is equal to 8. Otherwise return 0.
+	
+	>>> days_street_work(2)
+	1
+	>>> days_street_work(8)
+	0.5
+	>>> days_street_work(5)
+	0
+	"""
+	
 	if day == 2:
 		return 1
 	if day == 8:
