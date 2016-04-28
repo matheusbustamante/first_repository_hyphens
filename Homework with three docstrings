@@ -11,9 +11,17 @@ import math
 
 
 def days_cost(day):
+	"""
+	Precondition: day is a number
+	Postconditions: returns a integer given by the equation (4 + 0.3 * day)
+	"""
 	return int(4 + 0.3 * day)
 
 def get_glasses(day):
+	""" 
+	Precondition: day is a number
+	Postcondition: returns 12 if the day is less than 9 and return 0 otherwise
+	"""
 	if day < 9:
 		return 12
 	return 0
@@ -25,6 +33,10 @@ def get_signs(day, assets, sign_cost):
 	return 1
 
 def base_demand(price):
+	"""
+	Precondition: price is a numner
+	Postcondition: returns the largest of the numbers: 0 and (108 - 0.8 * price * price)
+	"""
 	return max(108 - 0.8 * price * price, 0)
 
 def advertising_multiplier(signs):
